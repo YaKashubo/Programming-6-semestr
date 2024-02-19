@@ -75,7 +75,7 @@ double deriv2(double x, double f1(double x))
 	return (f1(x + h) - 2. * f1(x) + f1(x - h)) / (h * h);
 }
 
-double newtone(double a, double b, double eps)
+int newtone(double a, double b, double eps)
 {
 	double A = a;
 	double B = b;
@@ -108,7 +108,7 @@ double newtone(double a, double b, double eps)
 	return m;
 }
 
-double mod_newtone(double a, double b, double eps)
+int mod_newtone(double a, double b, double eps)
 {
 	double A = a;
 	double B = b;
@@ -141,6 +141,58 @@ double mod_newtone(double a, double b, double eps)
 	cout << " Величина невязки |f(x)-0|: " << abs(f(X) - 0) << endl << endl;
 	return m;
 }
+
+int secant(double a, double b, double eps)
+{
+	double A = a;
+	double B = b;
+	double X0 = 0;
+	double X1 = 0;
+
+	X0 = a;
+	X1 = b;
+
+	//if (f(a) >= f(b))
+	//{
+	//	X0 = a;
+	//	X1 = b;
+	//}
+	//else
+	//{
+	//	X0 = b;
+	//	X1 = a;
+	//}
+
+	//if (f(a) >= f(b))
+	//{
+	//	X0 = b;
+	//	X1 = a;
+	//}
+	//else
+	//{
+	//	X0 = a;
+	//	X1 = b;
+	//}
+
+	cout << "Начальное приближение: " << a<<" "<<b << endl;
+
+	int m = 0;
+	double Xk = X1 - (f(X1) / (f(X1)-f(X0))*(X1-X0));
+	do
+	{
+		m++;
+		X0 = X1;
+		X1 = Xk;
+		Xk = X1 - (f(X1) / (f(X1) - f(X0)) * (X1 - X0));
+	} while (abs(Xk - X1) > eps);
+
+
+	cout << " Корень на промежутке [" << A << ";" << B << "]: " << Xk << endl;
+	cout << " |Xm-X(m-1)|: " << abs(Xk - X1) << endl;
+	cout << " Величина невязки |f(x)-0|: " << abs(f(Xk) - 0) << endl << endl;
+	return m;
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -161,6 +213,7 @@ int main()
 	{
 		cout << "[" << interval[i][0] << ";" << interval[i][1] << "]" << endl;
 	}
+	
 
 	cout << endl << "Определение корней методом БИССЕКЦИИ" << endl;
 	int k = 0;
@@ -170,6 +223,7 @@ int main()
 	}
 	cout << " Количество шагов для определения всех корней: " << k << endl << endl;
 
+
 	cout << endl << "Определение корней методом НЬЮТОНА" << endl;
 	k = 0;
 	for (int i = 0; i < interval.size(); ++i)
@@ -178,11 +232,21 @@ int main()
 	}
 	cout << " Количество шагов для определения всех корней: " << k << endl << endl;
 
+
 	cout << endl << "Определение корней МОДИФИЦИРОВАННЫМ методом НЬЮТОНА" << endl;
 	k = 0;
 	for (int i = 0; i < interval.size(); ++i)
 	{
 		k += mod_newtone(interval[i][0], interval[i][1], eps);
+	}
+	cout << " Количество шагов для определения всех корней: " << k << endl << endl;
+
+
+	cout << endl << "Определение корней методом СЕКУЩИХ" << endl;
+	k = 0;
+	for (int i = 0; i < interval.size(); ++i)
+	{
+		k += secant(interval[i][0], interval[i][1], eps);
 	}
 	cout << " Количество шагов для определения всех корней: " << k << endl << endl;
 
