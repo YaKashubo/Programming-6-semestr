@@ -17,16 +17,17 @@ def PL(x, X, F):
     return P
 
 
-def A(X, k):
+def A(X, F, k):
     if k == 0:
-        return f(X[0])
+        return F[0]
     sum = 0
     for i in range(k + 1):
         prod = 1
         for j in range(k + 1):
             if (j != i):
                 prod = prod * (X[i] - X[j])
-        sum = sum + f(X[i]) / prod
+        sum = sum + F[i] / prod
+    # print(sum)
     return sum
 
 
@@ -36,8 +37,9 @@ def PN(x, X, F):
         prod = 1
         for j in range(i):
             prod = prod * (x - X[j])
-        sum = sum + A(X, i) * prod
+        sum = sum + A(X, F, i) * prod
     return sum
+
 
 print("Задача алгебраического интерполирования")
 print("f(x)=x^2/(1+x^2)")
@@ -46,7 +48,7 @@ print()
 print("Введите границы [a;b] и количество узлов m+1")
 a = float(input("а = "))
 b = float(input("b = "))
-m = int(input("m+1 = "))-1
+m = int(input("m+1 = ")) - 1
 
 X = np.linspace(a, b, m + 1)
 F = f(X)
@@ -54,10 +56,10 @@ print(tabulate([['%.2f' % (X[i]), '%.2f' % (F[i])] for i in range(m + 1)], heade
 
 while True:
     print("Нажмите Enter, чтобы окончить программу, или продолжайте вводить данные")
-    x =input("Точка интерполяции x. x= ")
-    if(x==""):
+    x = input("Точка интерполяции x. x= ")
+    if (x == ""):
         break
-    x=float(x)
+    x = float(x)
     n = int(input("Степень многочлена n= "))
 
     dX = abs(X - x)

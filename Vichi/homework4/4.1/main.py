@@ -9,7 +9,7 @@ def If(A, B):
     return -B * cos(B) + sin(B) - (-A * cos(A) + sin(A))
 
 
-def P(x, n=4):
+def P(x, n=3):
     if n == 0:
         return 1
     return x ** n
@@ -50,4 +50,4 @@ b = float(input("b = "))
 KF = [LeftRectangle, RightRectangle, MiddleRectangle, Trapezoid, Simpson, ThreeEight]
 
 for i in range(len(KF)):
-    print(KF[i].__name__, " Величина невязки = ", abs(KF[i](f, a, b) - If(a,b)))
+    print(KF[i].__name__, " Величина невязки = ", abs(KF[i](P, a, b) - IP(a,b,3)))
