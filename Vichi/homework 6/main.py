@@ -55,10 +55,11 @@ def Euler2(x0,y0,h):
     return y0+h*((-y0+np.exp(-x0))+(-Yk+np.exp(-x0-h)))/2
 
 N = 10
-h = 0.1
+h = 0.01
 X = np.zeros(N + 3)
 for i in range(-2, N + 1):
     X[i + 2] = 0 + i * h
+
 print("Таблица аналитических значений")
 print(tabulate([[X[i], f(X[i])] for i in range(len(X))], headers=['Xi', 'f(Xi)'], tablefmt="grid"))
 
